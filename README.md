@@ -13,13 +13,13 @@ A production-quality Kanban board with JWT authentication, drag-and-drop, real-t
 
 - Node.js ≥ 18, npm ≥ 9
 
-### 1 — Install everything from the root
+### 1 - Install everything from the root
 
 ```bash
 npm run install:all
 ```
 
-### 2 — Configure environment variables
+### 2 - Configure environment variables
 
 ```bash
 cp backend/.env.example  backend/.env
