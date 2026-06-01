@@ -1,3 +1,4 @@
+
 const path = require('path');
 const fs   = require('fs');
 const initSqlJs = require('sql.js');
@@ -5,7 +6,6 @@ const initSqlJs = require('sql.js');
 // Path where the binary database file lives.
 const DB_PATH = path.resolve(__dirname, '../../data/taskmanager.db');
 
-// Module-level singletons so the DB is opened only once per process.
 let db  = null;
 let SQL = null;
 
@@ -18,9 +18,13 @@ function persist() {
 
 
 async function initDatabase() {
-  if (db) return db;         // already initialised
-  // Load the sql.js WASM module once.
-  SQL = await initSqlJs();
+  if (db) return db;          // already initialised 
+
+  
+  const sqlJsDistDir = path.dirname(require.resolve('sql.js/dist/sql-wasm.js'));
+  SQL = await initSqlJs({
+    locateFile: (file) => path.join(sqlJsDistDir, file),
+  });
 
   // Ensure the data directory exists.
   const dataDir = path.dirname(DB_PATH);
@@ -38,7 +42,6 @@ async function initDatabase() {
     console.log(' New database created at', DB_PATH);
   }
 
-  // Run schema migrations (CREATE TABLE IF NOT EXISTS – idempotent).
   const schemaPath = path.resolve(__dirname, 'schema.sql');
   const schema     = fs.readFileSync(schemaPath, 'utf8');
   db.run(schema);
