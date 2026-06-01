@@ -1,4 +1,4 @@
-# Taskboard — Full-Stack Task Manager
+# Taskboard - Full-Stack Task Manager
 
 A production-quality Kanban board with JWT authentication, drag-and-drop, real-time search/filter, and a polished responsive UI.
 
