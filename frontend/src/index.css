@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    font-size: 15px;
+    min-height: 100dvh;
+  }
+
+  h1,h2,h3,h4,h5,h6 { @apply font-display; }
+
+  ::selection { background: #E8552B33; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-ash rounded-full; }
+}
+
+@layer components {
+  /* ── Grain overlay for texture ─────────────────────────────────────── */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: -200%;
+    width: 400%;
+    height: 400%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Button base ────────────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center gap-2 font-display font-semibold rounded-lg
+           transition-all duration-150 select-none cursor-pointer;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-paper px-5 py-2.5 text-sm
+           hover:bg-accent active:scale-[0.97] shadow-card;
+  }
+  .btn-ghost {
+    @apply btn text-smoke px-4 py-2 text-sm
+           hover:text-ink hover:bg-mist active:scale-[0.97];
+  }
+  .btn-danger {
+    @apply btn bg-red-50 text-red-600 border border-red-200 px-4 py-2 text-sm
+           hover:bg-red-100 active:scale-[0.97];
+  }
+
+  /* ── Input ──────────────────────────────────────────────────────────── */
+  .input {
+    @apply w-full bg-white border border-mist rounded-lg px-3.5 py-2.5 text-sm
+           font-body text-ink placeholder:text-ash outline-none
+           focus:border-ink focus:ring-2 focus:ring-ink/[0.08]
+           transition-colors duration-150;
+  }
+  .input-error { @apply border-red-400 focus:border-red-500 focus:ring-red-500/[0.10]; }
+
+  /* ── Card ───────────────────────────────────────────────────────────── */
+  .card { @apply bg-white rounded-xl shadow-card border border-mist/60; }
+
+  /* ── Kanban column ──────────────────────────────────────────────────── */
+  .kanban-col {
+    @apply flex flex-col gap-3 p-4 rounded-xl min-h-[420px]
+           border border-mist/80 bg-paper/60 backdrop-blur-sm;
+  }
+
+  /* ── Stage badge ────────────────────────────────────────────────────── */
+  .badge-todo  { @apply bg-todo/10  text-todo  border border-todo/20; }
+  .badge-prog  { @apply bg-prog/10  text-prog  border border-prog/20; }
+  .badge-done  { @apply bg-done/10  text-done  border border-done/20; }
+
+  /* ── Fade-in animation ──────────────────────────────────────────────── */
+  .fade-in { animation: fadeIn 0.25s ease forwards; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-up { animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0)    scale(1); }
+  }
+}
